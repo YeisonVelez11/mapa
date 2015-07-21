@@ -121,8 +121,8 @@ $("#navba").css('opacity','0.0');
                         ////los vectores almacenaran el conjunto de las coordenadas, quedaran almacenando todo un vector, vector_lat y vector_long en cada posicion tienen un vector completo con las coordenadas de latitud y longitud respectivmanete
 
                     for (var i in  $scope.datosMunicipio){
-                          vector_lat.push($scope.datosMunicipio[i].mun_coordenadas.mun_latitud);
-                          vector_long.push($scope.datosMunicipio[i].mun_coordenadas.mun_longitud);
+                          vector_lat.push($scope.datosMunicipio[i].coordenadas.latitud);
+                          vector_long.push($scope.datosMunicipio[i].coordenadas.longitud);
 
                     }
 	
@@ -140,55 +140,100 @@ $("#navba").css('opacity','0.0');
                 
                    var array_anio=new Array();
                 
-                   for(var a in  $scope.datosMunicipio[0].mun_historico){
+                
+                
+                //funcion que elimina elementos repetidos
+                 function eliminar_repetidos(ar){
+                    var elemento="",aux=[].concat(ar),nuevo_arreglo=Array();
+
+                    for (var i in aux){ //
+                        elemento=aux[i];
+                        for (var a in aux){
+                            if (elemento==aux[a] && a!=i){
+                                //alert(elemento+"=="+aux[a]);
+                                aux[a]="";
+                            }
+                        }
+                    }
+
+                    for (var a in aux){
+                        if (aux[a]!=""){           
+                            nuevo_arreglo.push(aux[a]);
+                        }
+                    }
+                    //alert(nuevo_arreglo.length);
+                    return nuevo_arreglo;
+                }
+               //contiene los key de los a;os desde 2007 a 2015                                            
+               array_saberObjanio=Object.keys($scope.datosMunicipio[0].historico.dengue);
+               
+               //contendrá el array poor anios, en cada posicion del vector
+               var array_anio=new Array();
+                //permite conocer que posicion ocupa un anio en    array_saberObjanio
+                var posicion_arrayObj;
+                
+                 for(var a in  array_saberObjanio){
                         array_anio[a]=new Array();
                    }
-
+               
+                for(var i in  $scope.datosMunicipio){
+                    
+                   // console.log(a);
+               /*  console.log($scope.datosMunicipio.historico.dengue);
+                                     console.log($scope.datosMunicipio.historico.dengue.length);
+*/
+                  
+                   for(var a in  $scope.datosMunicipio[i].historico.dengue){
+                                       //console.log(a);
+                       //console.log(Object.keys($scope.datosMunicipio[i].historico.dengue))
+                      // console.log($scope.datosMunicipio[i].historico.dengue[a])
+                      //console.log( Object.keys($scope.datosMunicipio[i].historico.dengue))
+                    
+                      
+                    posicion_arrayObj= array_saberObjanio.indexOf(a);
+                      // console.log(posicion_arrayObj)
+                       if(a==array_saberObjanio[posicion_arrayObj]){
+                    array_anio[posicion_arrayObj].push($scope.datosMunicipio[i].historico.dengue[a]);
+                       }
+                     //console.log($scope.datosMunicipio[i].historico.dengue[a]);
+                      //console.log(Object.keys($scope.datosMunicipio[i].historico.dengue))
+                       
+                       
+                     //array_anio[i].push($scope.datosMunicipio[i].historico.dengue);
+                        
+                    }
+                }
+ // console.log( array_anio)
+             
+              
+              //eliminar_repetidos(array_anio); asi se sabe cuantas posiciones tiene el array segun años
+                /* array_anio=eliminar_repetidos(array_anio);
+               
+                
+                    for(var a in  array_anio){
+                        array_anio[a]=new Array();
+                   }
+                */
+                
+                /*
+                 for(var a in  $scope.datosMunicipio[0].historico.enfermedad){
+                 
+                    
+                    for(var i in  $scope.datosMunicipio[0].historico.enfermedad[a].dengue){
+                        console.log($scope.datosMunicipio[0].historico.enfermedad[a].dengue[i].anio);
+                         //se añaden elementos al vector y luego se eliminaran repetidos
+                        array_anio.push($scope.datosMunicipio[0].historico.enfermedad[a].dengue[i].anio);
+                        
+                    }
+                }
+               */
+                
+                
+                
+                
                   for(var i in  $scope.datosMunicipio ){
                     
                 
-                    for(var a in  $scope.datosMunicipio[i].mun_historico){
-                        
-                         if($scope.datosMunicipio[i].mun_historico[a].mun_anio==2015){
-                           array_anio[0].push($scope.datosMunicipio[i].mun_historico[a]);
-                         }
-
-                         if($scope.datosMunicipio[i].mun_historico[a].mun_anio==2014){
-                           array_anio[1].push($scope.datosMunicipio[i].mun_historico[a]);
-                         }    
-
-                         if($scope.datosMunicipio[i].mun_historico[a].mun_anio==2013){
-                           array_anio[2].push($scope.datosMunicipio[i].mun_historico[a]);
-                         }
-
-                        if($scope.datosMunicipio[i].mun_historico[a].mun_anio==2012){
-                           array_anio[3].push($scope.datosMunicipio[i].mun_historico[a]);
-                         }
-
-                        if($scope.datosMunicipio[i].mun_historico[a].mun_anio==2011){
-                            array_anio[4].push($scope.datosMunicipio[i].mun_historico[a]);
-                         }
-
-                         if($scope.datosMunicipio[i].mun_historico[a].mun_anio==2010){
-                            array_anio[5].push($scope.datosMunicipio[i].mun_historico[a]);
-                         }
-
-                         if($scope.datosMunicipio[i].mun_historico[a].mun_anio==2009){
-                            array_anio[6].push($scope.datosMunicipio[i].mun_historico[a]);
-                         } 
-
-                         if($scope.datosMunicipio[i].mun_historico[a].mun_anio==2008){
-                            array_anio[7].push($scope.datosMunicipio[i].mun_historico[a]);
-                         } 
-
-                         if($scope.datosMunicipio[i].mun_historico[a].mun_anio==2007){
-                            array_anio[8].push($scope.datosMunicipio[i].mun_historico[a]);
-                         }    
-
-                        
-                    }
-                         
-
                         var municipios_opciones= ({
                         path: coordenadas_Mun_aux[i],
                         strokeColor: 'black',
@@ -198,7 +243,7 @@ $("#navba").css('opacity','0.0');
                         fillColor: "#FF00FF",
                         fillOpacity: 0.9,
                         zIndex: 1,
-                        nombre: $scope.datosMunicipio[i].mun_nombre,
+                        nombre: $scope.datosMunicipio[i].nombre,
                         valorDengue:array_anio[0][i].mun_dengue,
                         map:null
                     });
@@ -221,39 +266,21 @@ $("#navba").css('opacity','0.0');
        
                     pintarMun()
                });  
-           
+              
+            //console.log(coordenadas_Mun_aux);
+            //console.log(municipios);
+                //array de los meses contiene el objeto de los meses es decir 1,2,3,4..12
+                var array_saberObjmeses=Object.keys(array_anio[0][0]);
+               // console.log(array_saberObjmeses)  
+                
                 
                  function pintarMun(){
                      
+                     //console.log(anio);
                 var posicion_anio="";
-                  if (anio==2015){
-                    posicion_anio=0;
-                  }
-                  if (anio==2014){
-                    posicion_anio=1;
-                  }
-                  if (anio==2013){
-                    posicion_anio=2;
-                  }
-                  if (anio==2012){
-                    posicion_anio=3;
-                  }
-                  if (anio==2011){
-                    posicion_anio=4;
-                  }
-                  if (anio==2010){
-                    posicion_anio=5;
-                  }
-                  if (anio==2009){
-                    posicion_anio=6;
-                  }
-                  if (anio==2008){
-                    posicion_anio=7;
-                  }
-                  if (anio==2007){
-                    posicion_anio=8;
-                  }
-                 
+                 posicion_anio=array_saberObjanio.indexOf(String(anio));
+                 var hayCeroCaso=false; 
+             
                      
                     
                  array_dengue=new Array();
@@ -274,13 +301,18 @@ $("#navba").css('opacity','0.0');
                             closeBoxURL: "../img/closepopup.png",
                             infoBoxClearance: new google.maps.Size(1, 1)
                         });     
-                     
+                   
+                 
                  for (var i in municipios) {
-                     
-                       municipios[i].setOptions({valorDengue:array_anio[posicion_anio][i].mun_dengue});
-                        
-                        /*var contenido = "<center><h2>Municipio: "+$scope.datosMunicipio[i].mun_nombre+"</h2></center><center>Casos registrados: "+$scope.datosMunicipio[i].mun_historico[0].mun_dengue+"</center>";*/
-                       contenido = "<img style='position: absolute; margin-top: -8px;' src='http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/examples/tipbox.gif'></img><div class='titulo_infobox'><center>Municipio: "+$scope.datosMunicipio[i].mun_nombre+"</center></div><center>Casos registrados: "+ municipios[i].valorDengue+"</center>";
+                 //console.log(array_anio[posicion_anio][i])
+                     var casosDengue=0;
+               for (var a in array_saberObjmeses){
+                 
+                       casosDengue+=array_anio[posicion_anio][i][array_saberObjmeses[a]].casos;
+               }
+                    municipios[i].setOptions({valorDengue:casosDengue});
+                        /*var contenido = "<center><h2>Municipio: "+$scope.datosMunicipio[i].nombre+"</h2></center><center>Casos registrados: "+$scope.datosMunicipio[i].historico[0].mun_dengue+"</center>";*/
+                       contenido = "<img style='position: absolute; margin-top: -8px;' src='http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/examples/tipbox.gif'></img><div class='titulo_infobox'><center>Municipio: "+$scope.datosMunicipio[i].nombre+"</center></div><center>Casos registrados: "+ municipios[i].valorDengue+"</center>";
                        
                         var  indice=i;
                   
@@ -337,12 +369,15 @@ $("#navba").css('opacity','0.0');
                    });
                     
                        
-                     
+                 
                     municipios[i].setMap(null);
                     if($("#c"+i).is(':checked')){
 
                                         if(municipios[i].valorDengue!=0 ){
                                             array_dengue.push(municipios[i].valorDengue);
+                                        }
+                                        else{
+                                            hayCeroCaso=true;  //indica si hay almenos algun municipio con valor de cero
                                         }
 
 
@@ -492,8 +527,8 @@ $("#navba").css('opacity','0.0');
                                         tabla2+="<tr><td width='25'  align='center' bgcolor="+"'"+colorhex+"'"+"> </td></tr>";  
 
                                     }*/
-
-                    tabla2+="<tr><td class='degradado'> </td></tr>";  
+                     if(hayCeroCaso==true){ var degradado='degradadoConBlanco';} else { var degradado='degradado'; }
+                    tabla2+="<tr><td class="+"'"+degradado+"'"+"> </td></tr>";  
                     tabla2+="</table>";
 
                     for (var i in municipios){
@@ -501,7 +536,10 @@ $("#navba").css('opacity','0.0');
                               continue;
                         }
                     alturaBarra+=23;
-                        if(min==Infinity){ min=0;}
+                    //alturaBarra+=22.2;
+                        if(min==Infinity || hayCeroCaso==true){ min=0;}
+                       
+                       
                     document.getElementById('tablas').innerHTML = "<br>"+tabla+"<table style='position: absolute;  height: "+ (alturaBarra)+"px; top:54px; left: 336px;' align='center'>"+tabla2+"<img style='position: absolute; left: 352px; top: 49px;' src='img/indicador.png'></img>"+"<div style='position: absolute; left: 376px; top: 53px;'>"+(max.length==1?"  "+max:max)+"</div>"+"<img style='position: absolute; left: 352px; top:"+(alturaBarra+25)+"px;' src='img/indicador.png'></img>"+"<div style='position: absolute; left: 376px; top: "+(alturaBarra+30)+"px;'>"+(min.length==1?"  "+min:min)+"</div>";
 
                     }
@@ -521,7 +559,7 @@ $("#navba").css('opacity','0.0');
  
 var concatena_municipios="<center><table>";
                 for (var i  in $scope.datosMunicipio) {
-                    concatena_municipios+="<tr><td>"+"<label for="+"'"+"c"+i+"'"+" style='font-family:arial;'>"+"<input type='checkbox'  id="+"'"+"c"+i+"'"+ ((marcarCheck)==undefined?"":marcarCheck[i])+ " value="+i+ "  class='mun_checkbox'  />  "+$scope.datosMunicipio[i].mun_nombre+ "</label></td></tr>";
+                    concatena_municipios+="<tr><td>"+"<label for="+"'"+"c"+i+"'"+" style='font-family:arial;'>"+"<input type='checkbox'  id="+"'"+"c"+i+"'"+ ((marcarCheck)==undefined?"":marcarCheck[i])+ " value="+i+ "  class='mun_checkbox'  />  "+$scope.datosMunicipio[i].nombre+ "</label></td></tr>";
                                    
                 }
                  $( "#cargar_datos" ).dialog({ autoOpen: false} );
@@ -538,6 +576,7 @@ var concatena_municipios="<center><table>";
                                             width:300,
                                             position: ["left","bottom"],	
                                             resizable: true,
+                                            dialogClass: 'dialogWithDropShadow',
                                             hide: { effect: "blind", duration: 400 } 
                     })
                     
@@ -589,7 +628,7 @@ var concatena_municipios="<center><table>";
                                                 height: 500,
                                                 width: 335,
                                                 position: ["right","center"],
-                                                
+                                                dialogClass: 'dialogWithDropShadow',
                                                 hide: { effect: "blind", duration: 400 } /*,
                                                 buttons: {
                             'Aceptar': function() {
@@ -655,27 +694,28 @@ var concatena_municipios="<center><table>";
 											
                 $(function() {
 
-                $("#mostrarTabla").click(function() {
-                    $( "#tablas" ).dialog({
-                        show: { effect: "blind", duration: 400 } ,
-                        height: 500,
-                        width: 420,
-                        position: ["left",100],	
-                        hide: { effect: "blind", duration: 400 } 
+                    $("#mostrarTabla").click(function() {
+                        $( "#tablas" ).dialog({
+                            show: { effect: "blind", duration: 400 } ,
+                            height: 500,
+                            width: 420,
+                            position: ["left",100],
+                            dialogClass: 'dialogWithDropShadow',
+                            hide: { effect: "blind", duration: 400 } 
 
 
-                });
-                 //$( "#txtFileUpload" ).button()
-                $( "#tablas" ).data('dialog').uiDialog.draggable('option', {
-                    cancel: '.ui-dialog-titlebar-close',
-                    handle: '.ui-dialog-titlebar, .ui-dialog-content'
-                });
-						
-						
-						
-                            
-                        
-				});
+                    });
+                     //$( "#txtFileUpload" ).button()
+                    $( "#tablas" ).data('dialog').uiDialog.draggable('option', {
+                        cancel: '.ui-dialog-titlebar-close',
+                        handle: '.ui-dialog-titlebar, .ui-dialog-content'
+                    });
+
+
+
+
+
+                    });
                 
                 });
           

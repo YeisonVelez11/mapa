@@ -82,7 +82,7 @@ app.get('/Dengue_listar', function(req, res){
       	}else{
         	res.send(resultadoMun);        	
       	}
-   }).sort({ "mun_nombre":1})
+   }).sort({ "nombre":1})
 });
     
    var rio = mongoose.model('rio', 
